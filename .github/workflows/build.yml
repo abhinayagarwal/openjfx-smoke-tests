@@ -53,6 +53,14 @@ jobs:
         env:
           maven_version: ${{ steps.version.outputs.maven_version }}
           MAVEN_CENTRAL_PORTAL_BEARER_TOKEN: ${{ secrets.MAVEN_CENTRAL_PORTAL_BEARER_TOKEN }}
+          MAVEN_OPTS: >
+            -XX:ErrorFile=hs_err_pid_%p.log
+            -XX:+ShowMessageBoxOnError
+      - name: Upload JVM crash log
+        uses: actions/upload-artifact@v4
+        with:
+          name: jvm-crash-log
+          path: hs_err_pid*.log
       - name: Test Maven (Windows)
         if: runner.os == 'windows'
         run: |
@@ -214,13 +222,20 @@ jobs:
           --add-modules javafx.fxml,javafx.web,hellofx \
           --output ${{ env.RUNTIME }} \
           --strip-debug --compress 2 --no-header-files --no-man-pages
-          ${{ env.JAVA_RUNTIME }} -Dsettings.javafx.version=${{ env.jmod_version }} -m hellofx/org.openjfx.MainApp -Djavafx.platform=Monocle -Dmonocle.platform=Headless -Dprism.order=sw
+          ${{ env.JAVA_RUNTIME }} -Dsettings.javafx.version=${{ env.jmod_version }} -m hellofx/org.openjfx.MainApp
         env:
           RUNTIME: ${{ steps.platform.outputs.runtime }}
           JAVA_RUNTIME: ${{ steps.platform.outputs.java_runtime }}
           JMOD_HOME: ${{ steps.platform.outputs.jmod_home }}
           jmod_version: ${{ steps.jmod.outputs.jmod_version }}
-
+          MAVEN_OPTS: >
+            -XX:ErrorFile=hs_err_pid_%p.log
+            -XX:+ShowMessageBoxOnError
+      - name: Upload JVM crash log
+        uses: actions/upload-artifact@v4
+        with:
+          name: jvm-crash-log
+          path: hs_err_pid*.log
       - name: Test JMODS (Windows)
         if: runner.os == 'Windows'
         run: |
@@ -257,6 +272,9 @@ jobs:
           JAVA_RUNTIME: ${{ steps.platform.outputs.java_runtime }}
           JMOD_HOME: ${{ steps.platform.outputs.jmod_home }}
           jmod_version: ${{ steps.jmod.outputs.jmod_version }}
+          MAVEN_OPTS: >
+            -XX:ErrorFile=hs_err_pid_%p.log
+            -XX:+ShowMessageBoxOnError
   maven-central-publish:
     needs: [maven-central, sdk, jmod]
     runs-on: ubuntu-latest
