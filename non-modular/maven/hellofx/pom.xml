@@ -45,6 +45,8 @@
                       <option>-Dprism.verbose=true</option>
                       <option>-Dglass.verbose=true</option>
                       <option>-Djavafx.verbose=true</option>
+                      <option>-Dglass.platform=Headless</option>
+                      <option>-Dprism.order=sw</option>
                   </options>
               </configuration>
           </plugin>
