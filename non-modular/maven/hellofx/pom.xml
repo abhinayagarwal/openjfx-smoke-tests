@@ -43,6 +43,8 @@
                   <options>
                       <option>-Dsettings.javafx.version=${javafx.version}</option>
                       <option>-Dprism.verbose=true</option>
+                      <option>-Dglass.verbose=true</option>
+                      <option>-Djavafx.verbose=true</option>
                   </options>
               </configuration>
           </plugin>
