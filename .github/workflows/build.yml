@@ -57,6 +57,7 @@ jobs:
             -XX:ErrorFile=hs_err_pid_%p.log
             -XX:+ShowMessageBoxOnError
       - name: Upload JVM crash log
+        if: always()
         uses: actions/upload-artifact@v4
         with:
           name: jvm-crash-log
@@ -232,6 +233,7 @@ jobs:
             -XX:ErrorFile=hs_err_pid_%p.log
             -XX:+ShowMessageBoxOnError
       - name: Upload JVM crash log
+        if: always()
         uses: actions/upload-artifact@v4
         with:
           name: jvm-crash-log
